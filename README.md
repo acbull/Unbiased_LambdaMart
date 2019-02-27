@@ -13,7 +13,7 @@ You can see the WWW 2019 (know as The Web Conference) paper “**Unbiased Lambda
 - evaluation/ 
   contains the synthetic click dataset generated using click models. This part of code is mainly forked from https://github.com/QingyaoAi/Unbiased-Learning-to-Rank-with-Unbiased-Propensity-Estimation. We also add the configs file to run our Unbiased LambdaMart on this synthetic dataset.
 
-## Citation
+### Citation
 
 Please consider citing the following paper when using our code for your application.
 
