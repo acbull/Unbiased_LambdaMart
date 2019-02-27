@@ -57,7 +57,7 @@ In this way, the test results will be generated.
 Please consider citing the following paper when using our code for your application.
 
 ```
-@inproceedings{chenshen2019,
+@inproceedings{unbias_lambdamart,
   title={Unbiased LambdaMART: An Unbiased PairwiseLearning-to-Rank Algorithm},
   author={Ziniu Hu, Yang Wang, Qu Peng, Hang Li},
   booktitle={Proceedings of the 2019 World Wide Web Conference},
