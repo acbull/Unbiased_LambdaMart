@@ -34,18 +34,18 @@ Note: glibc >= 2.14 is required.
 
 ## Evaluation
 
-Firstly, download the ranked dataset by an initial SVM ranker from 
-- https://drive.google.com/file/d/1459mQDnj-0yPtYMIc1LAqLg7Q5VJUw-K/view?usp=sharing
+- Firstly, download the ranked dataset by an initial SVM ranker from 
+https://drive.google.com/file/d/1459mQDnj-0yPtYMIc1LAqLg7Q5VJUw-K/view?usp=sharing
 And then put it into the evaluation directory. Also, one can generate this from scratch by their own, by refering to the procedure of https://github.com/QingyaoAi/Unbiased-Learning-to-Rank-with-Unbiased-Propensity-Estimation.
 
-Then, generate the synthetic dataset from click models by:
+- Then, generate the synthetic dataset from click models by:
 ```
 mkdir evaluation/test_data
 python evaluation/scripts/generate_data.py evaluation/click_model/user_browsing_model_0.1_1_4_1.json
 ```
 Their are also other click model configurations in *evaluation/click_model/*, one can use any of them.
 
-Finally, move the compiled *lighgbm* file into *evaluation/configs*, and then run:
+- Finally, move the compiled *lighgbm* file into *evaluation/configs*, and then run:
 ```
 ./lightgbm config='train.conf'
 ./lightgbm config='test.conf'
