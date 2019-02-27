@@ -9,7 +9,7 @@ You can see the WWW 2019 (know as The Web Conference) paper “**Unbiased Lambda
 ## Overview
 
 - Unbiased_LambdaMart
-  An implementation of Unbiased LambdaMart based on LightGBM. Note that LightGBM contains a wide variety of applications using gradient boosting decision tree algorithms. Our modification is mainly on the *src/objective/rank_objective.hpp*, which is the LambdaMart Ranking objective file.
+  An implementation of Unbiased LambdaMart based on LightGBM (https://github.com/Microsoft/LightGBM). Note that LightGBM contains a wide variety of applications using gradient boosting decision tree algorithms. Our modification is mainly on the *src/objective/rank_objective.hpp*, which is the LambdaMart Ranking objective file.
 - evaluation/ 
   contains the synthetic click dataset generated using click models. This part of code is mainly forked from https://github.com/QingyaoAi/Unbiased-Learning-to-Rank-with-Unbiased-Propensity-Estimation. We also add the configs file to run our Unbiased LambdaMart on this synthetic dataset.
 
