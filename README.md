@@ -17,7 +17,7 @@ You can see our WWW 2019 (know as The Web Conference) paper “**Unbiased Lambda
 
 ## Setup
 
-First compile the LightGBM (Unbias_LightGBM)
+First compile the Unbias_LightGBM (Original LightGBM with the implementation of Unbiased LambdaMart)
 
 On Linux LightGBM can be built using CMake and gcc or Clang.
 
