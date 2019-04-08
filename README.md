@@ -58,7 +58,7 @@ Please consider citing the following paper when using our code for your applicat
 
 ```
 @inproceedings{unbias_lambdamart,
-  title={Unbiased LambdaMART: An Unbiased PairwiseLearning-to-Rank Algorithm},
+  title={Unbiased LambdaMART: An Unbiased Pairwise Learning-to-Rank Algorithm},
   author={Ziniu Hu, Yang Wang, Qu Peng, Hang Li},
   booktitle={Proceedings of the 2019 World Wide Web Conference},
   year={2019}
