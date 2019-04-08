@@ -4,7 +4,7 @@ Unbiased LambdaMart is a unbiased version of traditional LambdaMart, which can j
 
 The repository contains two parts, firstly an implementation of Unbiased LambdaMart based on LightGBM. Secondly a simulated click dataset with its generation scripts for evalution.
 
-You can see the WWW 2019 (know as The Web Conference) paper “**Unbiased LambdaMART: An Unbiased PairwiseLearning-to-Rank Algorithm**” for more details.
+You can see our WWW 2019 (know as The Web Conference) paper “**Unbiased LambdaMART: An Unbiased PairwiseLearning-to-Rank Algorithm**” for more details.
 
 ## Overview
 
@@ -17,7 +17,7 @@ You can see the WWW 2019 (know as The Web Conference) paper “**Unbiased Lambda
 
 ## Setup
 
-First compile the LightGBM (with Unbiased LambdaMart)
+First compile the LightGBM (with implementation of Unbiased LambdaMart)
 
 On Linux LightGBM can be built using CMake and gcc or Clang.
 
