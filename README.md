@@ -31,6 +31,21 @@ cmake ..
 make -j4
 ```
 Note: glibc >= 2.14 is required.
+After compilation, we will get a "lighgbm" executable file in the folder.
+
+## Example
+
+We modified the original example file to give an illustration. 
+
+Compile, then run the following commands:
+```
+cd Unbias_LightGBM
+cp ./lightgbm ./examples/lambdarank/
+cd ./examples/lambdarank/
+./lightgbm config="train.conf"
+```
+
+Despite the original XXX.train (provide feature) and XXX.train.query (provide which query a document belongs to), our modified lambdamart required a XXX.train.rank file to provide the position information to conduct debiasing. For later usage, remember to add this file.
 
 ## Evaluation
 
