@@ -25,7 +25,7 @@ Install CMake.
 
 Run the following commands:
 ```
-cd Unbiased_LambdaMart
+cd Unbias_LightGBM/
 mkdir build ; cd build
 cmake .. 
 make -j4
