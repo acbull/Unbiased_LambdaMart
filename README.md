@@ -55,8 +55,10 @@ And then put it into the evaluation directory. Also, one can generate this from 
 
 Then, generate the synthetic dataset from click models by:
 ```
-mkdir evaluation/test_data
-python evaluation/scripts/generate_data.py evaluation/click_model/user_browsing_model_0.1_1_4_1.json
+cd evaluation
+mkdir test_data
+cd scripts
+python generate_data.py ../click_model/user_browsing_model_0.1_1_4_1.json
 ```
 Their are also other click model configurations in `evaluation/click_model/`, one can use any of them.
 
