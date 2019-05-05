@@ -71,7 +71,7 @@ In this way, the test results (LightGBM_predict_result.txt) based on synthetic c
 
 ```
 cd ../scripts
-python eval.py ../configs/LightGBM_predict_result.txt
+python eval.py ../configs/LightGBM_predict_result.txt  #or any other model output.
 ```
 
 ### Citation
