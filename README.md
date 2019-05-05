@@ -25,12 +25,27 @@ Install CMake.
 
 Run the following commands:
 ```
-cd Unbiased_LambdaMart
+cd Unbias_LightGBM/
 mkdir build ; cd build
 cmake .. 
 make -j4
 ```
 Note: glibc >= 2.14 is required.
+After compilation, we will get a "lighgbm" executable file in the folder.
+
+## Example
+
+We modified the original example file to give an illustration. 
+
+Compile, then run the following commands:
+```
+cd Unbias_LightGBM
+cp ./lightgbm ./examples/lambdarank/
+cd ./examples/lambdarank/
+./lightgbm config="train.conf"
+```
+
+Despite the original XXX.train (provide feature) and XXX.train.query (provide which query a document belongs to), our modified lambdamart required a XXX.train.rank file to provide the position information to conduct debiasing. For later usage, remember to add this file.
 
 ## Evaluation
 
@@ -40,8 +55,10 @@ And then put it into the evaluation directory. Also, one can generate this from 
 
 Then, generate the synthetic dataset from click models by:
 ```
-mkdir evaluation/test_data
-python evaluation/scripts/generate_data.py evaluation/click_model/user_browsing_model_0.1_1_4_1.json
+cd evaluation
+mkdir test_data
+cd scripts
+python generate_data.py ../click_model/user_browsing_model_0.1_1_4_1.json
 ```
 Their are also other click model configurations in `evaluation/click_model/`, one can use any of them.
 
