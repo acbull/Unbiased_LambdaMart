@@ -67,7 +67,12 @@ Finally, move the compiled `lighgbm` file into `evaluation/configs`, and then ru
 ./lightgbm config='train.conf'
 ./lightgbm config='test.conf'
 ```
-In this way, the test results will be generated.
+In this way, the test results (LightGBM_predict_result.txt) based on synthetic click data will be generated. Next, we will evaluate it on real data, by:
+
+```
+cd ../scripts
+python eval.py ../configs/LightGBM_predict_result.txt
+```
 
 ### Citation
 
