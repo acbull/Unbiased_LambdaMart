@@ -7,6 +7,15 @@ There are mainly two hyper-parameters that can be tuned, which is all in the src
   size_t _position_bins     : this denotes the maximum positions taken into account.
 ```
 
+If you want to re-implement the result of our table, you can change the regularization term back to 0, by modifying 
+```
+double _eta = 1.0 / (1 + 0.5); 
+```
+in the src/objective/rank_objective.hpp (Line 418) to 
+```
+double _eta = 1.0 / (1 + 0); 
+```
+
 Note that after the modification, each time for running Unbiased LambdaMart, one should prepare the following two files:
 ```
 x.query: which contains the session length of each query
