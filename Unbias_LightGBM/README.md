@@ -16,7 +16,7 @@ in the src/objective/rank_objective.hpp (Line 418) to
 double _eta = 1.0 / (1 + 0); 
 ```
 
-Note that after the modification, each time for running Unbiased LambdaMart, one should prepare the following two files:
+Another thing need to be noted is that in our Unbiased LambdaMart, each time for running Unbiased LambdaMart, one should prepare the following two files:
 ```
 x.query: which contains the session length of each query
 x.rank:  which contains the position for each item in a session
