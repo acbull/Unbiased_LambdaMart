@@ -169,7 +169,7 @@ public:
         if (i == j) { continue; }
         const data_size_t low = sorted_idx[j];
         const int low_label = static_cast<int>(label[low]);
-        const int low_rank = static_cast<int>(std::min(ranks_[start + low], _position_bins - 1)); /// high rank !!!-1
+        const int low_rank = static_cast<int>(std::min(ranks_[start + low], _position_bins - 1)); /// low rank !!!-1
         const double low_score = score[low];
         // only consider pair with different label
         if (high_label <= low_label || low_score == kMinScore) { continue; } /// i is more relevant than j
