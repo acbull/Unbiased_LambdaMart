@@ -30,6 +30,7 @@ class Raw_data:
             self.qids = []
             self.gold_list = []
             self.gold_weights = []
+
             return
 
         settings = json.load(open(data_path + 'settings.json'))
@@ -104,6 +105,7 @@ class Raw_data:
 
 def read_data(data_path, file_prefix, rank_cut=100000):
     data = Raw_data(data_path, file_prefix, rank_cut)
+
     return data
 
 
@@ -136,6 +138,7 @@ def generate_ranklist(data, rerank_lists):
             if ni >= 0:
                 did_list.append(data.dids[ni])
         qid_list_map[qid] = did_list
+
     return qid_list_map
 
 
@@ -172,6 +175,7 @@ def generate_ranklist_by_scores(data, rerank_scores):
             if ni >= 0:
                 did_list.append((data.dids[ni], ns))
         qid_list_map[qid] = did_list
+
     return qid_list_map
 
 

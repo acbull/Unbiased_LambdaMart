@@ -4,17 +4,9 @@ import json
 import os
 import sys
 import numpy as np
-data_dir = '../'
-fi = sys.argv[1]
-name = fi.split('/')[-1]
-name = name[:name.find('.')]
-print(fi, name)
-model_desc = json.load(open(fi))
-click_model = cm.loadModelFromJson(model_desc)
-target = './tmp/'
 
 
-def parse_data(data_dir, ti='train', tp='train', rank_cut=10, target='./'):
+def parse_data(click_model, data_dir, ti='train', tp='train', rank_cut=10, target='./'):
     train_session = ''
     train_size = ''
     train_svm = ''
@@ -70,10 +62,23 @@ def parse_data(data_dir, ti='train', tp='train', rank_cut=10, target='./'):
     fout2.close()
     fout3.close()
     fout4.close()
+
     return train_set
 
 
-train_set = parse_data(data_dir=data_dir + 'generate_dataset/',
-                       ti='train', tp=name+'_train', rank_cut=100000, target=target)
-test_set = parse_data(data_dir=data_dir + 'generate_dataset/',
-                      ti='test', tp=name+'_test', rank_cut=100000, target=target)
+if __name__ == "__main__":
+    data_dir = '../'
+    fi = sys.argv[1]
+    name = fi.split('/')[-1]
+    name = name[:name.find('.')]
+    print(fi, name)
+    model_desc = json.load(open(fi))
+    click_model = cm.loadModelFromJson(model_desc)
+    target = './tmp/'
+
+    train_set = parse_data(click_model=click_model,
+                           data_dir=data_dir+'generate_dataset/',
+                           ti='train', tp=name+'_train', rank_cut=100000, target=target)
+    test_set = parse_data(click_model=click_model,
+                          data_dir=data_dir+'generate_dataset/',
+                          ti='test', tp=name+'_test', rank_cut=100000, target=target)

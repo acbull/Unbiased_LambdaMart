@@ -13,6 +13,7 @@ def loadModelFromJson(model_desc):
     click_model.eta = model_desc['eta']
     click_model.click_prob = model_desc['click_prob']
     click_model.exam_prob = model_desc['exam_prob']
+
     return click_model
 
 
@@ -35,6 +36,7 @@ class ClickModel:
             'click_prob': self.click_prob,
             'exam_prob': self.exam_prob
         }
+
         return desc
 
     # Generate noisy click probability based on relevance grading number
@@ -79,6 +81,7 @@ class PositionBiasedModel(ClickModel):
             click_list.append(click)
             exam_p_list.append(exam_p)
             click_p_list.append(click_p)
+
         return click_list, exam_p_list, click_p_list
 
     def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
@@ -88,6 +91,7 @@ class PositionBiasedModel(ClickModel):
             if use_non_clicked_data | click_list[r] > 0:
                 pw = 1.0/self.getExamProb(r) * self.getExamProb(0)
             propensity_weights.append(pw)
+
         return propensity_weights
 
     def sampleClick(self, rank, relevance_label):
@@ -98,6 +102,7 @@ class PositionBiasedModel(ClickModel):
         click_p = self.click_prob[relevance_label if relevance_label < len(
             self.click_prob) else -1]
         click = 1 if random.random() < exam_p * click_p else 0
+
         return click, exam_p, click_p
 
     def getExamProb(self, rank):
@@ -133,6 +138,7 @@ class CascadeModel(ClickModel):
             click_list.append(click)
             exam_p_list.append(exam_p)
             click_p_list.append(click_p)
+
         return click_list, exam_p_list, click_p_list
 
 
@@ -173,6 +179,7 @@ class UserBrowsingModel(ClickModel):
             click_list.append(click)
             exam_p_list.append(exam_p)
             click_p_list.append(click_p)
+
         return click_list, exam_p_list, click_p_list
 
     def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
@@ -185,6 +192,7 @@ class UserBrowsingModel(ClickModel):
             if click_list[r] > 0:
                 last_click_rank = r
             propensity_weights.append(pw)
+
         return propensity_weights
 
     def sampleClick(self, rank, last_click_rank, relevance_label):
@@ -195,6 +203,7 @@ class UserBrowsingModel(ClickModel):
         click_p = self.click_prob[relevance_label if relevance_label < len(
             self.click_prob) else -1]
         click = 1 if random.random() < exam_p * click_p else 0
+
         return click, exam_p, click_p
 
     def getExamProb(self, rank, last_click_rank):
@@ -208,6 +217,7 @@ class UserBrowsingModel(ClickModel):
                 idx = distance - \
                     1 if distance < len(self.exam_prob[-1])-1 else -2
                 exam_p = self.exam_prob[-1][idx]
+
         return exam_p
 
 
