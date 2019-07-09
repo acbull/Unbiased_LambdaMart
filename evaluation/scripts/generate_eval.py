@@ -33,8 +33,8 @@ def parse_data(data_dir, ti='train', tp = 'train', rank_cut=10, target='./'):
             if i % 1000 == 0:
                 print(i, l, qid)
             train_size += str(len(train_set.initial_list[i])) + '\n'
-            gold_label_list = [0 if train_set.initial_list[i][x] < 0 else 
-                               train_set.gold_weights[i][x] for x in xrange(len(train_set.initial_list[i]))]
+            gold_label_list = [0 if train_set.initial_list[i][x] < 0 else
+                               train_set.gold_weights[i][x] for x in range(len(train_set.initial_list[i]))]
             click_list, _, _ = click_model.sampleClicksForOneList(list(gold_label_list))
             while sum(click_list) == 0:
                 click_list, _, _ = click_model.sampleClicksForOneList(list(gold_label_list))
@@ -53,7 +53,7 @@ def parse_data(data_dir, ti='train', tp = 'train', rank_cut=10, target='./'):
                 train_rank += str(s) + '\n'
             qid += 1
             ser += len(click_list)
-    
+
         fout1.write(train_session)
         fout2.write(train_size)
         fout3.write(train_svm)
@@ -71,7 +71,3 @@ def parse_data(data_dir, ti='train', tp = 'train', rank_cut=10, target='./'):
 
 train_set = parse_data(data_dir=data_dir + 'generate_dataset/', ti='train', tp=name+'_train', rank_cut=100000, target=target)
 test_set = parse_data(data_dir=data_dir + 'generate_dataset/', ti='test', tp=name+'_test', rank_cut=100000, target=target)
-
-
-
-

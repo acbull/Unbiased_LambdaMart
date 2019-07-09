@@ -38,7 +38,7 @@ class ClickModel:
 	def setClickProb(self, neg_click_prob, pos_click_prob, relevance_grading_num):
 		b = (pos_click_prob - neg_click_prob)/(pow(2, relevance_grading_num) - 1)
 		a = neg_click_prob - b
-		self.click_prob = [a + pow(2,i)*b for i in xrange(relevance_grading_num+1)]
+		self.click_prob = [a + pow(2,i)*b for i in range(relevance_grading_num+1)]
 
 	# Set the examination probability for the click model.
 	def setExamProb(self,eta):
@@ -66,7 +66,7 @@ class PositionBiasedModel(ClickModel):
 
 	def sampleClicksForOneList(self, label_list):
 		click_list, exam_p_list, click_p_list = [], [], []
-		for rank in xrange(len(label_list)):
+		for rank in range(len(label_list)):
 			click, exam_p, click_p = self.sampleClick(rank, label_list[rank])
 			click_list.append(click)
 			exam_p_list.append(exam_p)
@@ -75,7 +75,7 @@ class PositionBiasedModel(ClickModel):
 
 	def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
 		propensity_weights = []
-		for r in xrange(len(click_list)):
+		for r in range(len(click_list)):
 			pw = 0.0
 			if use_non_clicked_data | click_list[r] > 0:
 				pw = 1.0/self.getExamProb(r) * self.getExamProb(0)
@@ -105,7 +105,7 @@ class CascadeModel(ClickModel):
 		click_list, exam_p_list, click_p_list = [], [], []
 		last_click_rank = -1
 		satis = False
-		for rank in xrange(len(label_list)):
+		for rank in range(len(label_list)):
 			relevance_label = int(label_list[rank]) if label_list[rank] > 0 else 0
 			if satis:
 				exam_p = 0
@@ -145,13 +145,13 @@ class UserBrowsingModel(ClickModel):
 			[1.0, 1.0, 0.89, 0.52, 0.35, 0.24, 0.14, 0.43],
 		]
 		self.exam_prob = []
-		for i in xrange(len(self.original_rd_exam_table)):
+		for i in range(len(self.original_rd_exam_table)):
 			self.exam_prob.append([pow(x, eta) for x in self.original_rd_exam_table[i]])
 
 	def sampleClicksForOneList(self, label_list):
 		click_list, exam_p_list, click_p_list = [], [], []
 		last_click_rank = -1
-		for rank in xrange(len(label_list)):
+		for rank in range(len(label_list)):
 			click, exam_p, click_p = self.sampleClick(rank, last_click_rank, label_list[rank])
 			if click > 0:
 				last_click_rank = rank
@@ -163,7 +163,7 @@ class UserBrowsingModel(ClickModel):
 	def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
 		propensity_weights = []
 		last_click_rank = -1
-		for r in xrange(len(click_list)):
+		for r in range(len(click_list)):
 			pw = 0.0
 			if use_non_clicked_data | click_list[r] > 0:
 				pw = 1.0/self.getExamProb(r, last_click_rank)
@@ -237,10 +237,10 @@ def main():
 	relevance_grading_num=int(sys.argv[4])
 	eta=float(sys.argv[5])
 
-	click_model = PositionBiasedModel(neg_click_prob, pos_click_prob, 
+	click_model = PositionBiasedModel(neg_click_prob, pos_click_prob,
 							relevance_grading_num, eta)
 	if model_name == 'ubm':
-		click_model = UserBrowsingModel(neg_click_prob, pos_click_prob, 
+		click_model = UserBrowsingModel(neg_click_prob, pos_click_prob,
 							relevance_grading_num, eta)
 
 	with open('./' + '_'.join(sys.argv[1:6]) + '.json', 'w') as fout:

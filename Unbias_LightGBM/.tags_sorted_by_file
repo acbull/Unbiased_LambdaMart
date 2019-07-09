@@ -1174,7 +1174,7 @@ np	python-package/lightgbm/compat.py	/^import numpy as np$/;"	i
 numeric_types	python-package/lightgbm/compat.py	/^    numeric_types = (int, float, bool)$/;"	v
 numeric_types	python-package/lightgbm/compat.py	/^    numeric_types = (int, long, float, bool)$/;"	v
 range_	python-package/lightgbm/compat.py	/^    range_ = range$/;"	v
-range_	python-package/lightgbm/compat.py	/^    range_ = xrange$/;"	v
+range_	python-package/lightgbm/compat.py	/^    range_ = range$/;"	v
 string_type	python-package/lightgbm/compat.py	/^    string_type = basestring$/;"	v
 string_type	python-package/lightgbm/compat.py	/^    string_type = str$/;"	v
 sys	python-package/lightgbm/compat.py	/^import sys$/;"	i
