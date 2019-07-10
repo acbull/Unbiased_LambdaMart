@@ -27,7 +27,7 @@ else:
     string_type = basestring
     numeric_types = (int, long, float, bool)
     integer_types = (int, long)
-    range_ = xrange
+    range_ = range
 
     def argc_(func):
         """return number of arguments of a function"""
