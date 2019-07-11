@@ -2806,7 +2806,7 @@ random_	src/treelearner/serial_tree_learner.h	/^  Random random_;$/;"	m	class:Li
 random_for_drop_	src/boosting/dart.hpp	/^  Random random_for_drop_;$/;"	m	class:LightGBM::DART
 range_	python-package/lightgbm/callback.py	/^from .compat import range_$/;"	i
 range_	python-package/lightgbm/compat.py	/^    range_ = range$/;"	v
-range_	python-package/lightgbm/compat.py	/^    range_ = range$/;"	v
+range_	python-package/lightgbm/compat.py	/^    range_ = xrange$/;"	v
 rank	include/LightGBM/network.h	/^inline int Network::rank() {$/;"	f	class:LightGBM::Network
 rank	src/network/linkers.h	/^inline int Linkers::rank() {$/;"	f	class:LightGBM::Linkers
 rank_	include/LightGBM/network.h	/^  static THREAD_LOCAL int rank_;$/;"	m	class:LightGBM::Network
