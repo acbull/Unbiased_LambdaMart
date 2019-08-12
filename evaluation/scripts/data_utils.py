@@ -285,4 +285,4 @@ def output_ranklist(data, rerank_scores, output_path, file_name='test'):
         for qid in data.qids:
             for i in range(len(qid_list_map[qid])):
                 fout.write(qid + ' Q0 ' + qid_list_map[qid][i][0] + ' ' + str(i+1)
-                        + ' ' + str(qid_list_map[qid][i][1]) + ' RankLSTM\n')
+                           + ' ' + str(qid_list_map[qid][i][1]) + ' RankLSTM\n')

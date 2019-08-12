@@ -17,15 +17,15 @@ if __name__ == "__main__":
     target = '../test_data/'
 
     train_set = data_utils.parse_data(click_model=click_model,
-                           data_dir=data_dir+'generate_dataset/',
-                           task='data', ti='train',
-                           tp=click_model_fname+'_train',
-                           rank_cut=100000,
-                           target=target)
+                                      data_dir=data_dir+'generate_dataset/',
+                                      task='data', ti='train',
+                                      tp=click_model_fname+'_train',
+                                      rank_cut=100000,
+                                      target=target)
 
     test_set = data_utils.parse_data(click_model=click_model,
-                          data_dir=data_dir+'generate_dataset/',
-                          task='data', ti='test',
-                          tp=click_model_fname+'_test',
-                          rank_cut=100000,
-                          target=target)
+                                     data_dir=data_dir+'generate_dataset/',
+                                     task='data', ti='test',
+                                     tp=click_model_fname+'_test',
+                                     rank_cut=100000,
+                                     target=target)
