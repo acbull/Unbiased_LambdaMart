@@ -244,7 +244,7 @@ def generate_ranklist(data, rerank_lists):
 def generate_ranklist_by_scores(data, rerank_scores):
     if len(rerank_scores) != len(data.initial_list):
         raise ValueError("Rerank ranklists number must be equal to the initial list,"
-                         " %d != %d." % (len(rerank_lists)), len(data.initial_list))
+                         " %d != %d." % (len(rerank_scores)), len(data.initial_list))
     qid_list_map = {}
     for i in range(len(data.qids)):
         scores = rerank_scores[i]
@@ -252,12 +252,12 @@ def generate_ranklist_by_scores(data, rerank_scores):
                              key=lambda k: scores[k], reverse=True)
         if len(rerank_list) != len(data.initial_list[i]):
             raise ValueError("Rerank ranklists length must be equal to the gold list,"
-                             " %d != %d." % (len(rerank_lists[i]), len(data.initial_list[i])))
+                             " %d != %d." % (len(rerank_scores[i]), len(data.initial_list[i])))
         # remove duplicate and organize rerank list
         index_list = []
         index_set = set()
         for j in rerank_list:
-            #idx = len(rerank_lists[i]) - 1 - j if reverse_input else j
+            #idx = len(rerank_scores[i]) - 1 - j if reverse_input else j
             idx = j
             if idx not in index_set:
                 index_set.add(idx)
