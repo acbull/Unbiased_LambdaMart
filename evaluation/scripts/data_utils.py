@@ -109,6 +109,105 @@ def read_data(data_path, file_prefix, rank_cut=100000):
     return data
 
 
+def parse_data(click_model, data_dir, task,
+               ti='train', tp='train', rank_cut=10,
+               target='./'):
+    """[summary]
+
+    Parameters
+    ----------
+    click_model : PositionBiasedModel, UserBrowsingModel, CascadeModel
+        [description]
+    data_dir : [type]
+        [description]
+    task : str
+        Describes the current task. Either 'data' or 'eval'.
+    ti : str, optional
+        [description], by default 'train'
+    tp : str, optional
+        [description], by default 'train'
+    rank_cut : int, optional
+        [description], by default 10
+    target : str, optional
+        [description], by default './'
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+    print("Reading data in %s" % data_dir)
+
+    train_session = ''
+    train_size = ''
+    train_svm = ''
+    train_rank = ''
+
+    train_set = read_data(data_dir, ti, rank_cut)
+    l = len(train_set.initial_list)
+
+    fout1 = open(target + 'letor.%s' % tp, 'w')
+    fout2 = open(target + 'letor.%s.query' % tp, 'w')
+    fout3 = open(target + 'letor.%s.svm' % tp, 'w')
+    fout4 = open(target + 'letor.%s.rank' % tp, 'w')
+
+    rg = 1
+    if task == 'data' and ti == 'train':
+        rg = 16
+
+    qid = 0
+    for r in range(rg):
+        ser = 0
+        for i in range(l):
+            if i % 1000 == 0:
+                print(i, l, qid)
+
+            train_size += str(len(train_set.initial_list[i])) + '\n'
+            gold_label_list = [0 if train_set.initial_list[i][x] < 0 else
+                               train_set.gold_weights[i][x] for x in range(len(train_set.initial_list[i]))]
+            click_list, _, _ = click_model.sampleClicksForOneList(
+                list(gold_label_list))
+
+            while sum(click_list) == 0:
+                click_list, _, _ = click_model.sampleClicksForOneList(
+                    list(gold_label_list))
+
+            for s in range(len(click_list)):
+                feat_str = ''
+                hit = 0
+                for cnt, f in enumerate(train_set.features[ser + s]):
+                    if f != 0:
+                        hit += 1
+                        feat_str += ' ' + str(cnt+1) + ':' + str(f)
+                if hit == 0:
+                    print(feat_str)
+                    return
+                train_session += str(click_list[s]) + feat_str + '\n'
+                train_svm += str(click_list[s]) + \
+                    ' qid:' + str(qid) + feat_str + '\n'
+                train_rank += str(s) + '\n'
+
+            qid += 1
+            ser += len(click_list)
+
+        fout1.write(train_session)  # train <- features
+        fout2.write(train_size)     # train.query
+        fout3.write(train_svm)      # train.svm
+        fout4.write(train_rank)     # train.rank
+
+        train_size = ''
+        train_session = ''
+        train_svm = ''
+        train_rank = ''
+
+    fout1.close()
+    fout2.close()
+    fout3.close()
+    fout4.close()
+
+    return train_set
+
+
 def generate_ranklist(data, rerank_lists):
     if len(rerank_lists) != len(data.initial_list):
         raise ValueError("Rerank ranklists number must be equal to the initial list,"
@@ -181,9 +280,9 @@ def generate_ranklist_by_scores(data, rerank_scores):
 
 def output_ranklist(data, rerank_scores, output_path, file_name='test'):
     qid_list_map = generate_ranklist_by_scores(data, rerank_scores)
-    fout = open(output_path + file_name + '.ranklist', 'w')
-    for qid in data.qids:
-        for i in range(len(qid_list_map[qid])):
-            fout.write(qid + ' Q0 ' + qid_list_map[qid][i][0] + ' ' + str(i+1)
-                       + ' ' + str(qid_list_map[qid][i][1]) + ' RankLSTM\n')
-    fout.close()
+
+    with open(output_path + file_name + '.ranklist', 'w') as fout:
+        for qid in data.qids:
+            for i in range(len(qid_list_map[qid])):
+                fout.write(qid + ' Q0 ' + qid_list_map[qid][i][0] + ' ' + str(i+1)
+                        + ' ' + str(qid_list_map[qid][i][1]) + ' RankLSTM\n')
