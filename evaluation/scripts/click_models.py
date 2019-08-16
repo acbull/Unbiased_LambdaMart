@@ -4,12 +4,29 @@ import random
 import json
 
 
-def loadModelFromJson(model_desc):
-    click_model = PositionBiasedModel()
+def loadModelFromJson(fpath):
+    """Load a ClickModel child type from a JSON file.
+
+    Parameters
+    ----------
+    fpath : str
+        Path to the click model file.
+
+    Returns
+    -------
+    PositionBiasedModel, UserBrowsingModel, CascadeModel
+        The loaded click model instance.
+    """
+    with open(fpath, 'r') as f:
+        model_desc = json.load(f)
+
     if model_desc['model_name'] == 'user_browsing_model':
         click_model = UserBrowsingModel()
-    if model_desc['model_name'] == 'cascade_model':
+    elif model_desc['model_name'] == 'cascade_model':
         click_model = CascadeModel()
+    else:
+        click_model = PositionBiasedModel()
+
     click_model.eta = model_desc['eta']
     click_model.click_prob = model_desc['click_prob']
     click_model.exam_prob = model_desc['exam_prob']
@@ -19,6 +36,19 @@ def loadModelFromJson(model_desc):
 
 class ClickModel:
     def __init__(self, neg_click_prob=0.0, pos_click_prob=1.0, relevance_grading_num=1, eta=1.0):
+        """Initialize a new ClickModel instance.
+
+        Parameters
+        ----------
+        neg_click_prob : float, optional
+            [description], by default 0.0
+        pos_click_prob : float, optional
+            [description], by default 1.0
+        relevance_grading_num : int, optional
+            [description], by default 1
+        eta : int type, optional
+            [description], by default 1.0
+        """
         if self.model_name != 'cascade_model':
             self.setExamProb(eta)
         self.setClickProb(neg_click_prob, pos_click_prob,
@@ -28,8 +58,14 @@ class ClickModel:
     def model_name(self):
         return 'click_model'
 
-    # Serialize model into a json.
-    def getModelJson(self):
+    def as_dict(self):
+        """Get a dictionary representation of the model properties.
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         desc = {
             'model_name': self.model_name,
             'eta': self.eta,
@@ -39,26 +75,67 @@ class ClickModel:
 
         return desc
 
-    # Generate noisy click probability based on relevance grading number
-    # Inspired by ERR
     def setClickProb(self, neg_click_prob, pos_click_prob, relevance_grading_num):
+        """Generate noisy click probability based on the relevance grading
+        number.
+        Inspired by ERR.
+
+        Parameters
+        ----------
+        neg_click_prob : [type]
+            [description]
+        pos_click_prob : [type]
+            [description]
+        relevance_grading_num : [type]
+            [description]
+        """
         b = (pos_click_prob - neg_click_prob) / \
             (pow(2, relevance_grading_num) - 1)
         a = neg_click_prob - b
         self.click_prob = [
             a + pow(2, i)*b for i in range(relevance_grading_num+1)]
 
-    # Set the examination probability for the click model.
     def setExamProb(self, eta):
+        """Set the examination probability for the click model.
+
+        Parameters
+        ----------
+        eta : int type
+            [description]
+        """
         self.eta = eta
         return
 
-    # Sample clicks for a list
     def sampleClicksForOneList(self, label_list):
+        """Sample clicks for a list.
+
+        Parameters
+        ----------
+        label_list : [type]
+            [description]
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         return None
 
-    # Estimate propensity for clicks in a list
     def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
+        """Estimate propensity for clicks in a list.
+
+        Parameters
+        ----------
+        click_list : [type]
+            [description]
+        use_non_clicked_data : bool, optional
+            [description], by default False
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         return None
 
 
@@ -69,22 +146,60 @@ class PositionBiasedModel(ClickModel):
         return 'position_biased_model'
 
     def setExamProb(self, eta):
+        """Set the examination probability for the click model.
+
+        Parameters
+        ----------
+        eta : int type
+            [description]
+        """
         self.eta = eta
         self.original_exam_prob = [0.68, 0.61, 0.48,
                                    0.34, 0.28, 0.20, 0.11, 0.10, 0.08, 0.06]
         self.exam_prob = [pow(x, eta) for x in self.original_exam_prob]
 
     def sampleClicksForOneList(self, label_list):
-        click_list, exam_p_list, click_p_list = [], [], []
-        for rank in range(len(label_list)):
-            click, exam_p, click_p = self.sampleClick(rank, label_list[rank])
-            click_list.append(click)
-            exam_p_list.append(exam_p)
-            click_p_list.append(click_p)
+        """[summary]
 
-        return click_list, exam_p_list, click_p_list
+        Parameters
+        ----------
+        label_list : [type]
+            [description]
+
+        Returns
+        -------
+        set
+            A set containing the result of the sample click [0, 1], the
+            examination probability, and the click probability.
+        """
+        # Initialize the empty output
+        click_list, pr_exam_list, pr_click_list = [], [], []
+
+        # For the item's position (rank) in the query and its
+        for idx, label in enumerate(label_list):
+            click_result, pr_exam, pr_click = self.sampleClick(idx, label)
+
+            click_list.append(click_result)
+            pr_exam_list.append(pr_exam)
+            pr_click_list.append(pr_click)
+
+        return click_list, pr_exam_list, pr_click_list
 
     def estimatePropensityWeightsForOneList(self, click_list, use_non_clicked_data=False):
+        """Estimate propensity for clicks in a list.
+
+        Parameters
+        ----------
+        click_list : [type]
+            [description]
+        use_non_clicked_data : bool, optional
+            [description], by default False
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         propensity_weights = []
         for r in range(len(click_list)):
             pw = 0.0
@@ -95,6 +210,20 @@ class PositionBiasedModel(ClickModel):
         return propensity_weights
 
     def sampleClick(self, rank, relevance_label):
+        """[summary]
+
+        Parameters
+        ----------
+        rank : [type]
+            [description]
+        relevance_label : [type]
+            [description]
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         if not relevance_label == int(relevance_label):
             print('RELEVANCE LABEL MUST BE INTEGER!')
         relevance_label = int(relevance_label) if relevance_label > 0 else 0
@@ -106,6 +235,18 @@ class PositionBiasedModel(ClickModel):
         return click, exam_p, click_p
 
     def getExamProb(self, rank):
+        """Get the examination probability for the click model.
+
+        Parameters
+        ----------
+        rank : [type]
+            [description]
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         return self.exam_prob[rank if rank < len(self.exam_prob) else -1]
 
 
@@ -251,9 +392,7 @@ def test_initialization():
 def test_load_from_file():
     file_name = sys.argv[1]
     click_model = None
-    with open(file_name) as fin:
-        data = json.load(fin)
-        click_model = loadModelFromJson(data)
+    click_model = loadModelFromJson(file_name)
     click_list, exam_p_list, click_p_list = click_model.sampleClicksForOneList([
                                                                                4, 0, 3, 4])
     print(click_list)
@@ -276,7 +415,7 @@ def main():
                                         relevance_grading_num, eta)
 
     with open('./' + '_'.join(sys.argv[1:6]) + '.json', 'w') as fout:
-        fout.write(json.dumps(click_model.getModelJson(),
+        fout.write(json.dumps(click_model.as_dict()(),
                               indent=4, sort_keys=True))
 
 
