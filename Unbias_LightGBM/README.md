@@ -3,8 +3,8 @@ Unbiased_LambdaMart An implementation of Unbiased LambdaMart based on LightGBM (
 There are mainly two hyper-parameters that can be tuned, which you can set by config files. They are:
 
 ```
-  eta               : this denotes how much regularization is posed to the position bias.
-  position_bins     : this denotes the maximum positions taken into account.
+  eta = 0.5               : this denotes how much regularization is posed to the position bias.
+  position_bins =12       : this denotes the maximum positions taken into account.
 ```
 
 If you want to re-implement the result of our table, you can change the regularization term back to 0, by modifying 
@@ -13,7 +13,7 @@ eta = 0.5;
 ```
 in the config file to 
 ```
-double _eta = 0; 
+eta = 0; 
 ```
 
 Another thing need to be noted is that in our Unbiased LambdaMart, each time for running Unbiased LambdaMart, one should prepare the following two files:
