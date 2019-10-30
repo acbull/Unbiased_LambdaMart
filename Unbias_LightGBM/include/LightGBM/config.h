@@ -171,6 +171,10 @@ public:
   std::vector<double> label_gain;
   // for lambdarank
   int max_position = 20;
+  // for unbiased lambdarank
+  int position_bins = 12;
+  // for unbiased lambdarank
+  double eta = 0.5;
   // for binary
   bool is_unbalance = false;
   // for multiclass
@@ -487,7 +491,7 @@ struct ParameterAlias {
       "zero_as_missing", "init_score_file", "valid_init_score_file", "is_predict_contrib",
       "max_cat_threshold",  "cat_smooth", "min_data_per_group", "cat_l2", "max_cat_to_onehot",
       "alpha", "reg_sqrt", "tweedie_variance_power", "monotone_constraints", "max_delta_step",
-      "forced_splits"
+      "forced_splits", "position_bins", "eta"
     });
     std::unordered_map<std::string, std::string> tmp_map;
     for (const auto& pair : *params) {

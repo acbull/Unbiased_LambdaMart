@@ -336,6 +336,11 @@ void ObjectiveConfig::Set(const std::unordered_map<std::string, std::string>& pa
   CHECK(poisson_max_delta_step > 0);
   GetInt(params, "max_position", &max_position);
   CHECK(max_position > 0);
+  GetInt(params, "position_bins", &position_bins);
+  CHECK(position_bins > 0);
+  GetDouble(params, "eta", &eta);
+  CHECK(eta >= 0); 
+  eta = 1.0/(1.0 + eta);
   GetInt(params, "num_class", &num_class);
   CHECK(num_class > 0);
   GetDouble(params, "scale_pos_weight", &scale_pos_weight);

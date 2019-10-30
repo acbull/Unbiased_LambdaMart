@@ -37,6 +37,9 @@ public:
       Log::Fatal("Sigmoid param %f should be greater than zero", sigmoid_);
     }
 
+    _position_bins = config.position_bins;
+    _eta = config.eta;
+
     /// get number of threads
     #pragma omp parallel
     #pragma omp master
@@ -415,9 +418,9 @@ private:
   mutable std::vector<std::vector<label_t>> j_costs_buffer_; ///
 
   /*! \brief Number of exponent */
-  double _eta = 1.0 / (1 + 0.5); ///
+  double _eta; ///
   /*! \brief Number of positions */
-  size_t _position_bins = 12; ///
+  size_t _position_bins; ///
   /*! \brief Cache result for sigmoid transform to speed up */
   std::vector<double> sigmoid_table_;
   /*! \brief Number of bins in simoid table */
